@@ -11,7 +11,7 @@ module.exports = function (config) {
       "**/*.ts": ["karma-typescript"]
     },
 
-    reporters: ["progress", "karma-typescript"],
+    reporters: ["progress", "karma-typescript", "coverage", "coveralls"],
 
     // Uncomment below if you want the default html
     // coverage report + a summary on the console
