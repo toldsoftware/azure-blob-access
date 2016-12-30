@@ -17,6 +17,9 @@
 
 - Automate Testing and Code Coverage with Github Badges
 
+## 12:54-
+
+- Add Async
 
 # Tasks
 

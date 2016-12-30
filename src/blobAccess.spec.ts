@@ -1,4 +1,11 @@
-import { BlobAccess } from "./blobAccess";
+import { BlobAccess, createBlobPath } from "./blobAccess";
+
+describe("createBlobPath", function () {
+    it("should make path", function () {
+        let path = createBlobPath("container", "blob", "?SAS=SECURE");
+        expect(path).toBe("container/blob?SAS=SECURE");
+    });
+});
 
 describe("BlobAccess", function () {
     it("can be created", function () {
