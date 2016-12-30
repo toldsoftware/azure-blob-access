@@ -27,7 +27,6 @@
   "homepage": "https://github.com/toldsoftware/azure-blob-access#readme",
   "devDependencies": {
     "@types/jasmine": "^2.5.35",
-    "browser-resolve": "^1.11.2",
     "jasmine-core": "^2.4.1",
     "karma": "^1.2.0",
     "karma-cli": "^1.0.1",
