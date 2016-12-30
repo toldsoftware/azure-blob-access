@@ -1,7 +1,7 @@
 {
   "name": "@told/azure-blob-access",
   "version": "1.0.5",
-  "description": "Client and Server Access to Azure Blob Storage",
+  "description": "Typescript Library for Client and Server Access to Azure Blob Storage",
   "main": "index.ts",
   "scripts": {
     "test": "karma start karma.conf.js",
