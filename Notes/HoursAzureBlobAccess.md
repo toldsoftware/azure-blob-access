@@ -11,6 +11,12 @@
 - Add Existing Code
 - Setup Karma Testing Framework
 
+# 2016-12-30
+
+## 7:00-12:11
+
+- Automate Testing and Code Coverage with Github Badges
+
 
 # Tasks
 
