@@ -17,6 +17,7 @@ module.exports = function (config) {
       reports: {
         "html": "coverage",
         "lcovonly": "coverage",
+        // "text-lcov": "destination/coverage/lcov.info",
         "text-summary": "" // destination "" will redirect output to the console
       }
     },
