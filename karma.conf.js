@@ -16,8 +16,7 @@ module.exports = function (config) {
     karmaTypescriptConfig: {
       reports: {
         "html": "coverage",
-        "lcovonly": "coverage",
-        // "text-lcov": "destination/coverage/lcov.info",
+        "lcovonly": "lcov",
         "text-summary": "" // destination "" will redirect output to the console
       }
     },
