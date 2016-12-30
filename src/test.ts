@@ -1,1 +1,1 @@
-export var test = true;
+export var test2 = true;

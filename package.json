@@ -1,5 +1,5 @@
 {
-  "name": "azure-blob-access",
+  "name": "@told/azure-blob-access",
   "version": "1.0.0",
   "description": "Client and Server Access to Azure Blob Storage",
   "main": "index.ts",
