@@ -1,69 +1,38 @@
-// Karma configuration
-// Generated on Fri Dec 30 2016 00:43:31 GMT-0600 (Central Standard Time)
+module.exports = function(config) {
+    config.set({
 
-module.exports = function (config) {
-  config.set({
+        frameworks: ["jasmine", "karma-typescript"],
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+        files: [
+            { pattern: "src/**/*.ts" }
+        ],
 
+        preprocessors: {
+            "**/*.ts": ["karma-typescript"]
+        },
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine', 'browserify'],
+        reporters: ["progress", "karma-typescript"],
 
-    // list of files / patterns to load in the browser
-    files: [
-      // 'build/**/*.js'
-       'build/**/*.spec.js'
-    ],
+        // Uncomment below if you want the default html
+        // coverage report + a summary on the console
+        /*
+        karmaTypescriptConfig: {
+            reports:
+            {
+                "html": "coverage",
+                "text-summary": "" // destination "" will redirect output to the console
+            }
+        },
+        //*/
 
+        // Uncomment below if you want to disable code coverage
+        // instrumentation during debugging of tests
+        /*
+        karmaTypescriptConfig: {
+            disableCodeCoverageInstrumentation: true
+        },
+        //*/
 
-    // list of files to exclude
-    exclude: [],
-
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      'build/**/*.js': ['browserify']
-    },
-
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
-
-    // web server port
-    port: 9876,
-
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
-
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity
-  })
-}
+        browsers: ["Chrome"]
+    });
+};

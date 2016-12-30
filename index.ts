@@ -1,1 +1,1 @@
-export * from "./src/blobOperations";
+export * from "./src/blobAccess";
