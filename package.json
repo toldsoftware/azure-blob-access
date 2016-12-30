@@ -1,0 +1,26 @@
+{
+  "name": "azure-blob-access",
+  "version": "1.0.0",
+  "description": "Client and Server Access to Azure Blob Storage",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toldsoftware/azure-blob-access.git"
+  },
+  "keywords": [
+    "azure",
+    "blob",
+    "client",
+    "node",
+    "access"
+  ],
+  "author": "Rick Love",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toldsoftware/azure-blob-access/issues"
+  },
+  "homepage": "https://github.com/toldsoftware/azure-blob-access#readme"
+}
