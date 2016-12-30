@@ -1,10 +1,11 @@
 # 2016-12-29
 
-## 21:15-
+## 21:15-22:53
 
 - Create npm Project
-- Add Code
+- Test Publish Workflow
 
 # Tasks
 
 - Create Project
+- Add Code
