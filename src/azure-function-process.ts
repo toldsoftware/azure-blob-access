@@ -8,6 +8,7 @@ export interface Response<T> {
     headers?: {
         "Access-Control-Allow-Origin"?: string,
         "Content-Type"?: string,
+        [key: string]: string,
     };
     body: ResponseBody<T>;
 }

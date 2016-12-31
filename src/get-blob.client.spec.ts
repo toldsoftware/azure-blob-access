@@ -3,7 +3,7 @@ import { setupBrowser, Platform } from "@told/platform/lib";
 
 // let host = "http://localhost:9876";
 let host = "http://azure-blob-access-test.azurewebsites.net/api/get-blob";
-let timeout = 1000;
+let timeout = 10000;
 
 describe("getBlob", () => {
 

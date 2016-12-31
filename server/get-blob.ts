@@ -41,6 +41,7 @@ export function main(context: Context<GetBlobResponseData>, request: GetBlobRequ
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/javascript",
+            "X-Told-Test-Header": "test-header",
         },
         body: {
             ok: true,
