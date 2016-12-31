@@ -1,5 +1,6 @@
-import { Context, Request, Response, MainEntryPoint } from "./../src/azure-function-process";
 import { createBlobService, BlobUtilities } from "azure-storage";
+
+import { Context, Request, Response, MainEntryPoint } from "./../src/azure-function-process";
 import { GetBlobResponseData, GetBlobRequest } from "./../src/get-blob.model";
 
 declare var require: any;
@@ -35,9 +36,13 @@ export function main(context: Context<GetBlobResponseData>, request: GetBlobRequ
     console.log("blobUrl", blobUrl);
 
     context.done(null, {
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/javascript",
+        },
         body: {
             ok: true,
-            data: { blobUrl }
+            data: { blobUrl },
         }
     });
 }

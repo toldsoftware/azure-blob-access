@@ -1,1 +1,1 @@
-module.exports = require("./../build/server/get-blob").main;
+module.exports = require("./../lib/server/get-blob").main;
