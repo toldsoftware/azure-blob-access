@@ -1,4 +1,4 @@
-import * as P from "./azure-function-process";
+import * as P from "./../src/azure-function-process";
 
 declare var require: any;
 let http = require("http");

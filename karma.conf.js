@@ -4,7 +4,7 @@ module.exports = function (config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     files: [{
-      pattern: "src/**/*.ts"
+      pattern: "src/**/*.ts",
     }],
 
     preprocessors: {
@@ -19,7 +19,8 @@ module.exports = function (config) {
         "html": "coverage",
         "lcovonly": "lcov",
         "text-summary": "" // destination "" will redirect output to the console
-      }
+      },
+      exclude: ["server/**/*.ts"]
     },
 
     // Uncomment below if you want to disable code coverage

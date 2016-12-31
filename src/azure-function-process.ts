@@ -21,4 +21,3 @@ export interface Context<T> {
 }
 
 export type MainEntryPoint<T, TQuery, TBody> = (context: Context<T>, request: Request<TQuery, TBody>) => void;
-

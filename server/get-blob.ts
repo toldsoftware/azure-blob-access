@@ -1,6 +1,6 @@
-import { Context, Request, Response, MainEntryPoint } from "./azure-function-process";
+import { Context, Request, Response, MainEntryPoint } from "./../src/azure-function-process";
 import { createBlobService, BlobUtilities } from "azure-storage";
-import { GetBlobResponseData, GetBlobRequest } from "./get-blob.model";
+import { GetBlobResponseData, GetBlobRequest } from "./../src/get-blob.model";
 
 declare var require: any;
 interface Guid extends String { };
