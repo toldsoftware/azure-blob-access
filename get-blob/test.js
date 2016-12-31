@@ -1,0 +1,1 @@
+module.exports = require("./../build/src/server/azure-function-process.node").serve(require("./../build/src/server/get-blob").main);

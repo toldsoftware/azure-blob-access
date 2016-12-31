@@ -38,6 +38,8 @@
     "typescript": "^2.1.4"
   },
   "dependencies": {
-    "@told/platform": "^1.0.0"
+    "@told/platform": "^1.0.0",
+    "azure-storage": "^1.4.0",
+    "node-uuid": "^1.4.7"
   }
 }

@@ -14,7 +14,7 @@ module.exports = function (config) {
     reporters: ["progress", "karma-typescript"],
 
     karmaTypescriptConfig: {
-      tsconfig : "tsconfig.json",
+      tsconfig: "tsconfig.json",
       reports: {
         "html": "coverage",
         "lcovonly": "lcov",

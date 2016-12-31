@@ -1,0 +1,23 @@
+import * as P from "./azure-function-process.test";
+import { main } from "./get-blob";
+
+let host = "https://localhost:9876";
+
+describe("getBlob", () => {
+
+    it("should return a url", (done) => {
+        P.getResponse(main).then(r => {
+            console.log(r.body.data);
+            expect(r.body.data).toMatch(/^https?:\/\//);
+            done();
+        }).catch(fail);
+    }, 10);
+
+    // should return a new block blob url
+    // should return a writtable block blob url
+    // should return a writtable and readable block blob url
+
+    // should return an empty append blob url
+    // should return an appendable append blob url
+    // should return an appendable and readable append blob url
+});
