@@ -1,1 +1,1 @@
-export * from "./src/blobAccess";
+export * from "./src";

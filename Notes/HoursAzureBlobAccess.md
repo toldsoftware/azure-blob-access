@@ -17,9 +17,14 @@
 
 - Automate Testing and Code Coverage with Github Badges
 
-## 12:54-
+## 20:00-20:20
 
-- Add Async
+- Create GetBlob Placeholder
+
+##
+
+- Add Tests
+- Use Http with Async
 
 # Tasks
 
