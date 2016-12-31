@@ -1,7 +1,9 @@
 import { GetBlobRequest, GetBlobResponseBody } from "./get-blob.model";
 import { setupBrowser, Platform } from "@told/platform/lib";
 
-let host = "http://localhost:9876";
+// let host = "http://localhost:9876";
+let host = "http://azure-blob-access-test.azurewebsites.net/api/get-blob";
+let timeout = 1000;
 
 describe("getBlob", () => {
 
@@ -15,7 +17,8 @@ describe("getBlob", () => {
             expect(responseObj.data.blobUrl).toMatch(/^https?:\/\//);
             done();
         }).catch(fail);
-    }, 1000);
+    }, timeout);
+
 
     // should return a new block blob url
     // should return a writtable block blob url

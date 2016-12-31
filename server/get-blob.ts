@@ -8,10 +8,14 @@ interface Guid extends String { };
 let guid = require("node-uuid").v1 as () => Guid;
 
 export function main(context: Context<GetBlobResponseData>, request: GetBlobRequest) {
+    context.log("START",
+        "request.query", request.query
+    );
 
     let containerName = "user-storage";
     let blobName = "" + guid();
 
+    // TEMP: Include Connection String Temporarily (This token will be reset)
     let service = createBlobService("DefaultEndpointsProtocol=https;AccountName=toldazureblobaccesstest;AccountKey=sxoC66QPFJgWwkXTUIzER55xd7FMkYxudMhIlPaAbhQ258p5zwCeU0fviweRz6bVh7gFN7xyJkoyH7ZY85REAQ==;");
 
     // One-time setup
@@ -33,8 +37,6 @@ export function main(context: Context<GetBlobResponseData>, request: GetBlobRequ
     let blobSas = service.generateSharedAccessSignature(containerName, blobName, sharedAccessPolicy);
     let blobUrl = service.getUrl(containerName, blobName, blobSas);
 
-    console.log("blobUrl", blobUrl);
-
     context.done(null, {
         headers: {
             "Access-Control-Allow-Origin": "*",
@@ -45,4 +47,6 @@ export function main(context: Context<GetBlobResponseData>, request: GetBlobRequ
             data: { blobUrl },
         }
     });
+
+    context.log("END blobUrl", blobUrl);
 }

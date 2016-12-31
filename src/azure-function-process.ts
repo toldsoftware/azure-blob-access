@@ -19,7 +19,7 @@ export interface ResponseBody<T> {
 }
 
 export interface Context<T> {
-    log(text: string): void;
+    log(...text: any[]): void;
     done(u?: any, response?: Response<T>): void;
 }
 
