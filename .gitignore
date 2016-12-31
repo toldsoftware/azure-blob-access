@@ -38,4 +38,5 @@ jspm_packages
 .node_repl_history
 
 # Don't include generated files
-build
+# Do include generated filed because of server
+# build
