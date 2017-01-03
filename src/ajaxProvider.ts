@@ -9,7 +9,7 @@ export interface XHR {
 
 export interface AjaxSettings {
     url: string;
-    type: "GET" | "POST" | "PUT" | "DELETE" | "HEAD";
+    type: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
     data?: string;
     beforeSend?(xhr: XHR): void;
     success?(data: string, textStatus: string, xhr: XHR): void;

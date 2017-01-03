@@ -26,6 +26,24 @@
 - Create Server
 - Try to Test
 
+# 2017-01-02
+
+## 12:30-12:46
+
+- FIX CORS Setting
+- NOTE: For Wildcard CORS setting, remove other entries on azure
+
+## 18:35-19:10
+
+- Use azure-functions-server cli
+
+## 19:11-19:30
+
+- Update to use afs cli
+- Change double to single quotes
+- Update boilerplate files
+
+
 ##
 
 - Debug Client Testing

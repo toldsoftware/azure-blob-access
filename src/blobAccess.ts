@@ -1,7 +1,7 @@
-import { AjaxProvider } from "./ajaxProvider";
+import { AjaxProvider } from './ajaxProvider';
 
-const APPEND_BREAK = "\n,{},\n";
-const APPEND_BREAK_ESCAPE = "\\n,{ },\\n";
+const APPEND_BREAK = '\n,{},\n';
+const APPEND_BREAK_ESCAPE = '\\n,{ },\\n';
 
 export interface BlockBlobOptions {
     contentType?: string;
@@ -9,7 +9,7 @@ export interface BlockBlobOptions {
 }
 
 export function createBlobPath(containerUrl: string, blobName: string, sas: string) {
-    return containerUrl + "/" + blobName + sas;
+    return containerUrl + '/' + blobName + sas;
 }
 
 export class BlobAccess {
