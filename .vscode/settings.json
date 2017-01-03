@@ -14,7 +14,7 @@
         // "tsconfig.json" : true,
         "tslint.json": true,
         "lib": true,
-        "deployment": true,
+        //"deployment": true,
         ".deployment": true
     }
 }
