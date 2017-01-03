@@ -1,1 +1,1 @@
-module.exports = require('./../lib/src-server/manual-server').serve(require('./../lib/src-server/get-blob').main);
+module.exports = require('@told/azure-functions-server/lib/src-server/manual-server').serve(require('./../lib/src-server/get-blob').main);
