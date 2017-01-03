@@ -7,7 +7,7 @@ declare var require: any;
 interface Guid extends String { };
 let guid = require('node-uuid').v1 as () => Guid;
 
-export function main(context: Context<GetBlobResponseData>, request: GetBlobRequest) {
+export async function main(context: Context<GetBlobResponseData>, request: GetBlobRequest) {
     context.log('START',
         'request.query', request.query
     );

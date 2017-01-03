@@ -4,8 +4,8 @@
   "description": "Typescript Library for Client and Server Access to Azure Blob Storage",
   "main": "index.ts",
   "scripts": {
-    "asf": ".\\node_modules\\.bin\\afs -w",    
-    "dev" : "concurrently \"tsc -w\" \".\\node_modules\\.bin\\afs -w\"",
+    "asf": ".\\node_modules\\.bin\\afs -w",
+    "dev": "concurrently \"tsc -w\" \".\\node_modules\\.bin\\afs -w\"",
     "test": "karma start karma.conf.js",
     "coveralls": "for /f \"delims=\" %a in ('dir /b/ad \".\\lcov\\*\" ') do xcopy /I /Y \"lcov\\%a\\*\" .\\lcov && type .\\lcov\\lcovonly | node .\\node_modules\\coveralls\\bin\\coveralls.js"
   },
@@ -41,6 +41,7 @@
     "typescript": "^2.1.4"
   },
   "dependencies": {
+    "tslib": "^1.4.0",
     "@told/azure-functions-server": "^1.0.6",
     "@told/platform": "^1.0.2",
     "azure-storage": "^1.4.0",
