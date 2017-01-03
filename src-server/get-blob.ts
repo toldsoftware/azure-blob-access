@@ -15,8 +15,8 @@ export function main(context: Context<GetBlobResponseData>, request: GetBlobRequ
     let containerName = 'user-storage';
     let blobName = '' + guid();
 
-    // TEMP: Include Connection String Temporarily (This token will be reset)
-    let service = createBlobService('DefaultEndpointsProtocol=https;AccountName=toldazureblobaccesstest;AccountKey=sxoC66QPFJgWwkXTUIzER55xd7FMkYxudMhIlPaAbhQ258p5zwCeU0fviweRz6bVh7gFN7xyJkoyH7ZY85REAQ==;');
+    // Uses env.AZURE_STORAGE_CONNECTION_STRING
+    let service = createBlobService();
 
     // One-time setup
     if (request.query.setup) {
