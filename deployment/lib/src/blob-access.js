@@ -24,8 +24,10 @@ var BlobAccess = (function () {
                             headers['Content-Type'] = options.contentType;
                             headers['x-ms-blob-content-type'] = options.contentType;
                         }
+                        // console.log('setOrCreateBlockBlob', 'data.length=', data.length, 'headers=', headers);
                         return [4 /*yield*/, this.http.request(blobSasUrl, 'PUT', data, headers)];
                     case 1:
+                        // console.log('setOrCreateBlockBlob', 'data.length=', data.length, 'headers=', headers);
                         _a.sent();
                         return [2 /*return*/];
                 }

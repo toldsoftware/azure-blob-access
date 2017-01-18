@@ -1,8 +1,8 @@
 import { BlobAccess } from './blob-access';
 
-const DEBUG = true;
+const DEBUG = false;
 
-function log(message: string, ...args: string[]) {
+function log(message: string, ...args: any[]) {
     if (DEBUG) console.log(message, ...args);
 }
 
@@ -29,7 +29,7 @@ export function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri
                     let ctx = cvs.getContext('2d');
 
                     let aspectRatio = maxHeight == null ? img.width / img.height : maxWidth / maxHeight;
-                    let scale = maxHeight == null ? img.width / maxWidth : Math.min(img.width / maxWidth, img.height / maxHeight);
+                    let scale = maxHeight == null ? maxWidth / img.width : Math.min(maxWidth / img.width, maxHeight / img.height);
                     if (scale > 1) { scale = 1; }
 
                     let w = Math.round(img.width * scale);
@@ -40,9 +40,9 @@ export function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri
 
                     ctx.drawImage(img, 0, 0, w, h);
 
-                    log('Resize Image Drawn');
+                    log('Resize Image Drawn', 'w=', w, 'h=', h, 'maxWidth=', maxWidth, 'maxHeight=', maxHeight);
                     imageDataUri = cvs.toDataURL(contentType, 0.92);
-                    log('Resize Image END');
+                    log('Resize Image END', 'imageDataUri.length=', imageDataUri.length);
                 }
                 catch (err) {
                     reject('The Image failed to Upload:' + err);

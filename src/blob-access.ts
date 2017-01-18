@@ -29,6 +29,7 @@ export class BlobAccess {
             headers['x-ms-blob-content-type'] = options.contentType;
         }
 
+        // console.log('setOrCreateBlockBlob', 'data.length=', data.length, 'headers=', headers);
         await this.http.request(blobSasUrl, 'PUT', data, headers);
     }
 

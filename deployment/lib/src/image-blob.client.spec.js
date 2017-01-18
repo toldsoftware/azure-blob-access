@@ -61,8 +61,8 @@ describe('uploadImage', function () {
                         img_1.onload = function () {
                             expect(img_1.width).toBe(300);
                             expect(img_1.height).toBe(300);
-                            done();
                             console.log('Load Uploaded Image END');
+                            done();
                         };
                         img_1.onerror = function () { return fail(); };
                         img_1.src = blobUrl;
