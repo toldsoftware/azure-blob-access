@@ -25,9 +25,10 @@ function main(context, request) {
                 AccessPolicy: {
                     Permissions: azure_storage_1.BlobUtilities.SharedAccessPermissions.READ
                         + azure_storage_1.BlobUtilities.SharedAccessPermissions.WRITE
-                        + 'c'
+                        + 'c',
+                    // + BlobUtilities.SharedAccessPermissions.CREATE,
+                    Expiry: expiryDate
                 },
-                Expiry: expiryDate
             };
             suffixes = (request.query.suffixesCsv || '').split(',').map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
             if (suffixes.length === 0) {

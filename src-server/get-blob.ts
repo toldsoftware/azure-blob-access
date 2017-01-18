@@ -37,10 +37,10 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
             BlobUtilities.SharedAccessPermissions.READ
             + BlobUtilities.SharedAccessPermissions.WRITE
             // CREATE Missing (Is it needed?)
-            + 'c'
-            // + BlobUtilities.SharedAccessPermissions.CREATE
+            + 'c',
+            // + BlobUtilities.SharedAccessPermissions.CREATE,
+            Expiry: expiryDate
         },
-        Expiry: expiryDate
     };
 
     let suffixes = (request.query.suffixesCsv || '').split(',').map(x => x.trim()).filter(x => x.length > 0);
