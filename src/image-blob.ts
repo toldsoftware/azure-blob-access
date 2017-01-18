@@ -1,11 +1,14 @@
-import { BlobAccess } from './blobAccess';
+import { BlobAccess } from './blob-access';
 
 // From file input element:
 // <input type="file" id="file_uploader" accept="image/*;capture=camera" capture="camera">
 export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fileElement: HTMLInputElement, maxWidth?: number, maxHeight?: number) {
     let file = fileElement['files'][0];
     let imageDataUri = window.URL.createObjectURL(file);
+    await uploadImage(access, blobSasUrl, imageDataUri, maxWidth, maxHeight);
+}
 
+export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
     if (maxWidth != null) {
         let img = new Image();
         img.onload = async () => {

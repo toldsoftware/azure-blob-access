@@ -1,4 +1,4 @@
-import { BlobAccess, createBlobPath } from './blobAccess';
+import { BlobAccess, createBlobPath } from './blob-access';
 
 describe('createBlobPath', function () {
     it('should make path', function () {
