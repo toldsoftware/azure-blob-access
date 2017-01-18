@@ -1,5 +1,11 @@
 import { BlobAccess } from './blob-access';
 
+const DEBUG = true;
+
+function log(message: string, ...args: string[]) {
+    if (DEBUG) console.log(message, ...args);
+}
+
 // From file input element:
 // <input type="file" id="file_uploader" accept="image/*;capture=camera" capture="camera">
 export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fileElement: HTMLInputElement, maxWidth?: number, maxHeight?: number) {
@@ -8,37 +14,59 @@ export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fi
     await uploadImage(access, blobSasUrl, imageDataUri, maxWidth, maxHeight);
 }
 
-export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
-    if (maxWidth != null) {
-        let img = new Image();
-        img.onload = async () => {
-            let cvs = document.createElement('canvas');
-            let ctx = cvs.getContext('2d');
+export function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
+    return new Promise((resolve, reject) => {
+        if (maxWidth != null) {
+            log('Resize Image START');
+            let contentType = 'image/jpeg';
+            let img = new Image();
+            img.setAttribute('crossOrigin', 'anonymous');
+            img.onload = async () => {
+                log('Resize Image Loaded');
 
-            let aspectRatio = maxHeight == null ? img.width / img.height : maxWidth / maxHeight;
-            let scale = maxHeight == null ? img.width / maxWidth : Math.min(img.width / maxWidth, img.height / maxHeight);
-            if (scale > 1) { scale = 1; }
+                try {
+                    let cvs = document.createElement('canvas');
+                    let ctx = cvs.getContext('2d');
 
-            let w = Math.round(img.width * scale);
-            let h = Math.round(img.height * scale);
+                    let aspectRatio = maxHeight == null ? img.width / img.height : maxWidth / maxHeight;
+                    let scale = maxHeight == null ? img.width / maxWidth : Math.min(img.width / maxWidth, img.height / maxHeight);
+                    if (scale > 1) { scale = 1; }
 
-            cvs.width = w;
-            cvs.height = h;
+                    let w = Math.round(img.width * scale);
+                    let h = Math.round(img.height * scale);
 
-            ctx.drawImage(img, 0, 0, w, h);
-            imageDataUri = cvs.toDataURL('image/jpeg', 0.92);
-            await postImage(access, blobSasUrl, imageDataUri);
-        };
-        img.src = imageDataUri;
-    } else {
-        await postImage(access, blobSasUrl, imageDataUri);
-    }
+                    cvs.width = w;
+                    cvs.height = h;
+
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    log('Resize Image Drawn');
+                    imageDataUri = cvs.toDataURL(contentType, 0.92);
+                    log('Resize Image END');
+                }
+                catch (err) {
+                    reject('The Image failed to Upload:' + err);
+                    return;
+                }
+
+                log('Post Image START');
+                await postImage(access, blobSasUrl, imageDataUri, contentType);
+                log('Post Image END');
+
+                resolve();
+            };
+            img.src = imageDataUri;
+        } else {
+            postImage(access, blobSasUrl, imageDataUri)
+                .then(() => resolve).catch(err => reject(err));;
+        }
+    });
 }
 
 
-export async function postImage(access: BlobAccess, sasUrl: string, imageDataUrl: string) {
+export async function postImage(access: BlobAccess, sasUrl: string, imageDataUrl: string, contentType: string = 'image/jpeg') {
     let data = convertImageDataUrlToBytes(imageDataUrl);
-    await access.setOrCreateBlockBlob(sasUrl, data, { contentType: 'image/jpeg' });
+    await access.setOrCreateBlockBlob(sasUrl, data, { contentType });
 }
 
 export function convertImageDataUrlToBytes(dataURI: string): Uint8Array {
@@ -47,7 +75,7 @@ export function convertImageDataUrlToBytes(dataURI: string): Uint8Array {
     try {
         bytes = dataURItoUint8Array(dataURI);
     } catch (e) {
-        console.log('FAIL convertImageDataUrlToRawData', 'err' + JSON.stringify(e));
+        log('FAIL convertImageDataUrlToRawData', 'err' + JSON.stringify(e));
         throw e;
     }
 
@@ -60,7 +88,7 @@ export function convertImageDataUrlToBlob(dataURI: string, imageType: ImageType)
     try {
         b = dataURItoBlob(dataURI, imageType);
     } catch (e) {
-        console.log('FAIL convertImageDataUrlToBlob', 'err' + JSON.stringify(e));
+        log('FAIL convertImageDataUrlToBlob', 'err' + JSON.stringify(e));
         throw e;
     }
 

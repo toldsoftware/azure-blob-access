@@ -1,7 +1,6 @@
 import { GetBlobRequest, GetBlobResponseBody } from './get-blob.model';
 import { BlobAccess } from './blob-access';
 import { uploadImage } from './image-blob';
-import { AjaxProvider } from './ajax-provider';
 import { setupBrowser, Platform } from '@told/platform/lib';
 
 // let host = "http://localhost:9876";
@@ -14,24 +13,57 @@ describe('uploadImage', () => {
     setupBrowser();
     let http = Platform.http();
 
-    it('should upload an image', async (done) => {
-
+    it('should get a blob url', async (done) => {
         try {
-
             // Get Blob Sas Url
             let r = await http.request(host);
             let responseObj = JSON.parse(r.data) as GetBlobResponseBody;
             let blobSasUrl = responseObj.data.urls[0].blobSasUrl;
+            let blobUrl = responseObj.data.urls[0].blobUrl;
 
-            // Upload image
-
-            // let access = new BlobAccess(ajax);
-            // // let r = await uploadImage()
+            expect(blobSasUrl).toMatch(/^https?:\/\//);
+            expect(blobUrl).toMatch(/^https?:\/\//);
+            done();
 
         } catch (err) {
             fail();
         }
+    });
 
+    it('should upload an image', (done) => {
+        let go = async () => {
+            try {
+
+                // Get Blob Sas Url
+                let r = await http.request(host);
+                let responseObj = JSON.parse(r.data) as GetBlobResponseBody;
+                let blobSasUrl = responseObj.data.urls[0].blobSasUrl;
+                let blobUrl = responseObj.data.urls[0].blobUrl;
+
+                // Upload image
+                console.log('Upload Image START');
+                let access = new BlobAccess(http);
+                await uploadImage(access, blobSasUrl, imageUrl, 300, 300);
+                console.log('Upload Image END');
+
+                // Load Uploaded Image
+                console.log('Load Uploaded Image START');
+
+                let img = new Image();
+                img.onload = () => {
+                    expect(img.width).toBe(300);
+                    expect(img.height).toBe(300);
+                    done();
+                    console.log('Load Uploaded Image END');
+                };
+                img.onerror = () => fail();
+                img.src = blobUrl;
+
+            } catch (err) {
+                fail();
+            }
+        };
+        go().then();
     }, timeout);
 
     // should return a new block blob url

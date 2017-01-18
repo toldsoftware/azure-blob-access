@@ -30,7 +30,12 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
 
     let sharedAccessPolicy = {
         AccessPolicy: {
-            Permissions: BlobUtilities.SharedAccessPermissions.READ + BlobUtilities.SharedAccessPermissions.WRITE,
+            Permissions:
+            BlobUtilities.SharedAccessPermissions.READ
+            + BlobUtilities.SharedAccessPermissions.WRITE
+            // CREATE Missing
+            + 'c'
+            // + BlobUtilities.SharedAccessPermissions.CREATE
         },
     };
 

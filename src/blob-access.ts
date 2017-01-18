@@ -1,4 +1,5 @@
-import { AjaxProvider } from './ajax-provider';
+import { HttpClient } from '@told/platform/lib';
+
 
 const APPEND_BREAK = '\n,{},\n';
 const APPEND_BREAK_ESCAPE = '\\n,{ },\\n';
@@ -13,48 +14,22 @@ export function createBlobPath(containerUrl: string, blobName: string, sas: stri
 }
 
 export class BlobAccess {
-    constructor(private ajax: AjaxProvider) {
+    constructor(private http: HttpClient) {
 
     }
 
-    setOrCreateBlockBlob(blobSasUrl: string, data: any, options: BlockBlobOptions) {
-        return new Promise((resolve, reject) => {
-            this.ajax.ajax({
-                url: blobSasUrl,
-                type: 'PUT',
-                data: data,
-                beforeSend: (xhr) => {
-                    // Encoded in SasUrl
-                    // xhr.setRequestHeader('Authorization', blobAuthorization);
-                    // xhr.setRequestHeader('x-ms-date', blobDate);
-                    // xhr.setRequestHeader('x-ms-version', blobMsVersion);
+    async setOrCreateBlockBlob(blobSasUrl: string, data: any, options: BlockBlobOptions) {
+        let headers: { [key: string]: string } = {
+            'x-ms-blob-type': 'BlockBlob',
+            'x-ms-blob-cache-control': options.cacheControl || 'public'
+        };
 
-                    // Set by browser
-                    // xhr.setRequestHeader('Content-Length', "" + requestData.length);
+        if (options.contentType) {
+            headers['Content-Type'] = options.contentType;
+            headers['x-ms-blob-content-type'] = options.contentType;
+        }
 
-                    // Set Content Type (Is this needed?)
-                    xhr.setRequestHeader('Content-Type', options.contentType);
-
-                    // Set to BlockBlob
-                    xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob');
-
-                    // Store content type and cache control for direct access
-                    if (options.contentType) { xhr.setRequestHeader('x-ms-blob-content-type', options.contentType); }
-                    if (options.cacheControl) { xhr.setRequestHeader('x-ms-blob-cache-control', options.cacheControl || 'public'); }
-                },
-                success: (data) => {
-                    // console.log("success " + data);
-                    resolve();
-                },
-                error: (shr, status, data) => {
-                    // console.log("error " + data + " Status " + shr.status);
-                    reject(status);
-                },
-                complete: () => {
-                    // console.log("end");
-                }
-            });
-        });
+        await this.http.request(blobSasUrl, 'PUT', data, headers);
     }
 
     // getBlobMetadata(blobPath: string, metadataKeys: string[], onSuccess: (metadata: { [key: string]: string }) => void, onFail: () => void) {
