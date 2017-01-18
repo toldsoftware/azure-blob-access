@@ -13,7 +13,7 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
     );
 
     let containerName = 'user-storage';
-    let blobName = '' + guid();
+    let blobBaseName = '' + guid();
 
     // Uses env.AZURE_STORAGE_CONNECTION_STRING
     let service = createBlobService();
@@ -34,8 +34,20 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
         },
     };
 
-    let blobSas = service.generateSharedAccessSignature(containerName, blobName, sharedAccessPolicy);
-    let blobUrl = service.getUrl(containerName, blobName, blobSas);
+    let suffixes = (request.query.suffixesCsv || '').split(',').map(x => x.trim()).filter(x => x.length > 0);
+    if (suffixes.length === 0) {
+        suffixes = [''];
+    }
+
+    let urls: { blobUrl: string, blobSasUrl: string }[] = [];
+
+    for (let suffix of suffixes) {
+        let blobSas = service.generateSharedAccessSignature(containerName, blobBaseName, sharedAccessPolicy);
+        let blobUrl = service.getUrl(containerName, blobBaseName);
+        let blobSasUrl = service.getUrl(containerName, blobBaseName, blobSas);
+
+        urls.push({ blobUrl, blobSasUrl });
+    }
 
     context.done(null, {
         headers: {
@@ -45,9 +57,9 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
         },
         body: {
             ok: true,
-            data: { blobUrl },
+            data: { urls },
         }
     });
 
-    context.log('END blobUrl', blobUrl);
+    context.log('END blobBaseName=', blobBaseName);
 }

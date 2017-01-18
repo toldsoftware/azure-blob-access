@@ -14,7 +14,10 @@ describe('getBlob', () => {
         http.request(host).then(r => {
             let responseObj = JSON.parse(r.data) as GetBlobResponseBody;
             // console.log(responseObj);
-            expect(responseObj.data.blobUrl).toMatch(/^https?:\/\//);
+            expect(responseObj.data.urls[0].blobUrl).toMatch(/^https?:\/\//);
+            expect(responseObj.data.urls[0].blobSasUrl).toMatch(/^https?:\/\//);
+            expect(responseObj.data.urls[0].blobSasUrl.indexOf(responseObj.data.urls[0].blobUrl)).toBe(0);
+            expect(responseObj.data.urls[0].blobSasUrl.length > responseObj.data.urls[0].blobUrl.length).toBe(true);
             done();
         }).catch(fail);
     }, timeout);

@@ -5,11 +5,11 @@ var azure_storage_1 = require("azure-storage");
 var guid = require('node-uuid').v1;
 function main(context, request) {
     return tslib_1.__awaiter(this, void 0, void 0, function () {
-        var containerName, blobName, service, sharedAccessPolicy, blobSas, blobUrl;
+        var containerName, blobBaseName, service, sharedAccessPolicy, suffixes, urls, _i, suffixes_1, suffix, blobSas, blobUrl, blobSasUrl;
         return tslib_1.__generator(this, function (_a) {
             context.log('START', 'request.query', request.query);
             containerName = 'user-storage';
-            blobName = '' + guid();
+            blobBaseName = '' + guid();
             service = azure_storage_1.createBlobService();
             // One-time setup
             if (request.query.setup) {
@@ -24,8 +24,18 @@ function main(context, request) {
                     Permissions: azure_storage_1.BlobUtilities.SharedAccessPermissions.READ + azure_storage_1.BlobUtilities.SharedAccessPermissions.WRITE,
                 },
             };
-            blobSas = service.generateSharedAccessSignature(containerName, blobName, sharedAccessPolicy);
-            blobUrl = service.getUrl(containerName, blobName, blobSas);
+            suffixes = (request.query.suffixesCsv || '').split(',').map(function (x) { return x.trim(); }).filter(function (x) { return x.length > 0; });
+            if (suffixes.length === 0) {
+                suffixes = [''];
+            }
+            urls = [];
+            for (_i = 0, suffixes_1 = suffixes; _i < suffixes_1.length; _i++) {
+                suffix = suffixes_1[_i];
+                blobSas = service.generateSharedAccessSignature(containerName, blobBaseName, sharedAccessPolicy);
+                blobUrl = service.getUrl(containerName, blobBaseName);
+                blobSasUrl = service.getUrl(containerName, blobBaseName, blobSas);
+                urls.push({ blobUrl: blobUrl, blobSasUrl: blobSasUrl });
+            }
             context.done(null, {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -34,10 +44,10 @@ function main(context, request) {
                 },
                 body: {
                     ok: true,
-                    data: { blobUrl: blobUrl },
+                    data: { urls: urls },
                 }
             });
-            context.log('END blobUrl', blobUrl);
+            context.log('END blobBaseName=', blobBaseName);
             return [2 /*return*/];
         });
     });

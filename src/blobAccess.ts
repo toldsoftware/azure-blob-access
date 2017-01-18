@@ -102,44 +102,45 @@ export class BlobAccess {
     //     });
     // }
 
-    // setOrCreateBlockBlob(blobSasUrl: string, data: string, options: BlockBlobOptions, onSuccess: () => void, onFail: () => void) {
+    async setOrCreateBlockBlob(blobSasUrl: string, data: any, options: BlockBlobOptions) {
+        return new Promise((resolve, reject) => {
+            this.ajax.ajax({
+                url: blobSasUrl,
+                type: 'PUT',
+                data: data,
+                beforeSend: (xhr) => {
+                    // Encoded in SasUrl
+                    // xhr.setRequestHeader('Authorization', blobAuthorization);
+                    // xhr.setRequestHeader('x-ms-date', blobDate);
+                    // xhr.setRequestHeader('x-ms-version', blobMsVersion);
 
-    //     this.ajax.ajax({
-    //         url: blobSasUrl,
-    //         type: "PUT",
-    //         data: data,
-    //         beforeSend: (xhr) => {
-    //             // Encoded in SasUrl
-    //             // xhr.setRequestHeader('Authorization', blobAuthorization);
-    //             // xhr.setRequestHeader('x-ms-date', blobDate);
-    //             // xhr.setRequestHeader('x-ms-version', blobMsVersion);
+                    // Set by browser
+                    // xhr.setRequestHeader('Content-Length', "" + requestData.length);
 
-    //             // Set by browser
-    //             // xhr.setRequestHeader('Content-Length', "" + requestData.length);
+                    // Set Content Type (Is this needed?)
+                    xhr.setRequestHeader('Content-Type', options.contentType);
 
-    //             // Set above
-    //             // xhr.setRequestHeader('Content-Type', "image/png");
+                    // Set to BlockBlob
+                    xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob');
 
-    //             // Set to BlockBlob
-    //             xhr.setRequestHeader("x-ms-blob-type", "BlockBlob");
-
-    //             // Store content type and cache control for direct access
-    //             if (options.contentType) { xhr.setRequestHeader("x-ms-blob-content-type", options.contentType); }
-    //             if (options.cacheControl) { xhr.setRequestHeader("x-ms-blob-cache-control", options.cacheControl || "public"); }
-    //         },
-    //         success: (data) => {
-    //             // console.log("success " + data);
-    //             onSuccess();
-    //         },
-    //         error: (shr, status, data) => {
-    //             // console.log("error " + data + " Status " + shr.status);
-    //             onFail();
-    //         },
-    //         complete: () => {
-    //             // console.log("end");
-    //         }
-    //     });
-    // }
+                    // Store content type and cache control for direct access
+                    if (options.contentType) { xhr.setRequestHeader('x-ms-blob-content-type', options.contentType); }
+                    if (options.cacheControl) { xhr.setRequestHeader('x-ms-blob-cache-control', options.cacheControl || 'public'); }
+                },
+                success: (data) => {
+                    // console.log("success " + data);
+                    resolve();
+                },
+                error: (shr, status, data) => {
+                    // console.log("error " + data + " Status " + shr.status);
+                    reject(status);
+                },
+                complete: () => {
+                    // console.log("end");
+                }
+            });
+        });
+    }
 
     // createAppendBlob(blobPath: string, onSuccess: () => void, onFail: () => void) {
     //     this.ajax.ajax({
