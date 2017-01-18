@@ -28,15 +28,19 @@ export async function main(context: Context<GetBlobResponseData>, request: GetBl
         });
     }
 
+    let expiryDate = new Date();
+    expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+
     let sharedAccessPolicy = {
         AccessPolicy: {
             Permissions:
             BlobUtilities.SharedAccessPermissions.READ
             + BlobUtilities.SharedAccessPermissions.WRITE
-            // CREATE Missing
+            // CREATE Missing (Is it needed?)
             + 'c'
             // + BlobUtilities.SharedAccessPermissions.CREATE
         },
+        Expiry: expiryDate
     };
 
     let suffixes = (request.query.suffixesCsv || '').split(',').map(x => x.trim()).filter(x => x.length > 0);
