@@ -1,9 +1,9 @@
 "use strict";
-var blueImpLoadImage = require('blueimp-load-image-npm');
+var blueImpLoadImage = require('blueimp-load-image');
 function loadImage(file, options) {
     var optionsInner = options || {};
     optionsInner.crossOrigin = true;
-    // Orientation true makese canvas and meta true also
+    // Orientation true makes canvas and meta true also
     optionsInner.orientation = true;
     optionsInner.canvas = true;
     optionsInner.meta = true;

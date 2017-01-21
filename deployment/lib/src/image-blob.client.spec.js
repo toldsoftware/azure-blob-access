@@ -54,7 +54,7 @@ describe('uploadImage', function () {
                         // Upload image
                         console.log('Upload Image START');
                         access = new blob_access_1.BlobAccess(http);
-                        return [4 /*yield*/, image_blob_1.uploadImage(access, blobSasUrl, imageUrl, 300, 300)];
+                        return [4 /*yield*/, image_blob_1.uploadImage(access, blobSasUrl, imageUrl, { maxWidth: 300, maxHeight: 300 })];
                     case 2:
                         _a.sent();
                         console.log('Upload Image END');

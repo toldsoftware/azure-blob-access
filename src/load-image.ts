@@ -1,5 +1,5 @@
 declare let require: any;
-const blueImpLoadImage = require('blueimp-load-image-npm') as LoadImageMethod;
+const blueImpLoadImage = require('blueimp-load-image') as LoadImageMethod;
 
 export type ImageFile = string | Blob | File;
 type LoadImageMethod = (file: ImageFile, callback: (img: HTMLImageElement | HTMLCanvasElement) => void, options: LoadImageOptions_Inner) => void;
@@ -15,6 +15,7 @@ export interface LoadImageOptions {
     crop?: boolean;
 }
 
+// tslint:disable-next-line:class-name
 interface LoadImageOptions_Inner extends LoadImageOptions {
     crossOrigin?: boolean;
     canvas?: boolean;
@@ -28,7 +29,7 @@ export function loadImage(file: ImageFile, options?: LoadImageOptions): Promise<
 
     optionsInner.crossOrigin = true;
 
-    // Orientation true makese canvas and meta true also
+    // Orientation true makes canvas and meta true also
     optionsInner.orientation = true;
     optionsInner.canvas = true;
     optionsInner.meta = true;
