@@ -9,3 +9,4 @@ export interface LoadImageOptions {
     crop?: boolean;
 }
 export declare function loadImage(file: ImageFile, options?: LoadImageOptions): Promise<HTMLCanvasElement>;
+export declare function getOrientation(file: ImageFile): Promise<number>;
