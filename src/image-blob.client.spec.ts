@@ -35,10 +35,12 @@ describe('uploadImage', () => {
             try {
 
                 // Get Blob Sas Url
+                console.log('Get Blob Sas Url START');
                 let r = await http.request(host);
                 let responseObj = JSON.parse(r.data) as GetBlobResponseBody;
                 let blobSasUrl = responseObj.data.urls[0].blobSasUrl;
                 let blobUrl = responseObj.data.urls[0].blobUrl;
+                console.log('Get Blob Sas Url START');
 
                 // Upload image
                 console.log('Upload Image START');

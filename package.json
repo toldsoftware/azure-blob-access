@@ -45,6 +45,7 @@
     "@told/azure-functions-server": "^1.5.2",
     "@told/platform": "^1.0.4",
     "azure-storage": "^1.4.0",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "blueimp-load-image-npm": "0.1.7"
   }
 }

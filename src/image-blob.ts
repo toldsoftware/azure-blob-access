@@ -1,6 +1,7 @@
 import { BlobAccess } from './blob-access';
+import { loadImage } from './load-image';
 
-const DEBUG = false;
+const DEBUG = true;
 
 function log(message: string, ...args: any[]) {
     if (DEBUG) console.log(message, ...args);
@@ -14,8 +15,22 @@ export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fi
     await uploadImage(access, blobSasUrl, imageDataUri, maxWidth, maxHeight);
 }
 
-export function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
+export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
+    log('loadImage START');
+    let cvs = await loadImage(imageDataUri, { maxWidth, maxHeight });
+    log('loadImage END');
+    log('toDataURL START');
+    let contentType = 'image/jpeg';
+    let resultImageUri = cvs.toDataURL(contentType, 0.92);
+    log('toDataURL END');
+    log('postImage START');
+    await postImage(access, blobSasUrl, resultImageUri, contentType);
+    log('postImage END');
+}
+
+export function uploadImage_manual(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
     return new Promise((resolve, reject) => {
+
         if (maxWidth != null) {
             log('Resize Image START');
             let contentType = 'image/jpeg';
