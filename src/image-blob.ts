@@ -1,7 +1,7 @@
 import { BlobAccess } from './blob-access';
-import { loadImage } from './load-image';
+import { loadImage, LoadImageOptions } from './load-image';
 
-const DEBUG = true;
+const DEBUG = false;
 
 function log(message: string, ...args: any[]) {
     if (DEBUG) console.log(message, ...args);
@@ -9,15 +9,15 @@ function log(message: string, ...args: any[]) {
 
 // From file input element:
 // <input type="file" id="file_uploader" accept="image/*;capture=camera" capture="camera">
-export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fileElement: HTMLInputElement, maxWidth?: number, maxHeight?: number) {
+export async function uploadImageFile(access: BlobAccess, blobSasUrl: string, fileElement: HTMLInputElement, options?: LoadImageOptions) {
     let file = fileElement['files'][0];
     let imageDataUri = window.URL.createObjectURL(file);
-    await uploadImage(access, blobSasUrl, imageDataUri, maxWidth, maxHeight);
+    await uploadImage(access, blobSasUrl, imageDataUri, options);
 }
 
-export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
+export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageDataUri: string, options?: LoadImageOptions) {
     log('loadImage START');
-    let cvs = await loadImage(imageDataUri, { maxWidth, maxHeight });
+    let cvs = await loadImage(imageDataUri, options);
     log('loadImage END');
     log('toDataURL START');
     let contentType = 'image/jpeg';
@@ -27,57 +27,6 @@ export async function uploadImage(access: BlobAccess, blobSasUrl: string, imageD
     await postImage(access, blobSasUrl, resultImageUri, contentType);
     log('postImage END');
 }
-
-export function uploadImage_manual(access: BlobAccess, blobSasUrl: string, imageDataUri: string, maxWidth?: number, maxHeight?: number) {
-    return new Promise((resolve, reject) => {
-
-        if (maxWidth != null) {
-            log('Resize Image START');
-            let contentType = 'image/jpeg';
-            let img = new Image();
-            img.setAttribute('crossOrigin', 'anonymous');
-            img.onload = async () => {
-                log('Resize Image Loaded');
-
-                try {
-                    let cvs = document.createElement('canvas');
-                    let ctx = cvs.getContext('2d');
-
-                    let aspectRatio = maxHeight == null ? img.width / img.height : maxWidth / maxHeight;
-                    let scale = maxHeight == null ? maxWidth / img.width : Math.min(maxWidth / img.width, maxHeight / img.height);
-                    if (scale > 1) { scale = 1; }
-
-                    let w = Math.round(img.width * scale);
-                    let h = Math.round(img.height * scale);
-
-                    cvs.width = w;
-                    cvs.height = h;
-
-                    ctx.drawImage(img, 0, 0, w, h);
-
-                    log('Resize Image Drawn', 'w=', w, 'h=', h, 'maxWidth=', maxWidth, 'maxHeight=', maxHeight);
-                    imageDataUri = cvs.toDataURL(contentType, 0.92);
-                    log('Resize Image END', 'imageDataUri.length=', imageDataUri.length);
-                }
-                catch (err) {
-                    reject('The Image failed to Upload:' + err);
-                    return;
-                }
-
-                log('Post Image START');
-                await postImage(access, blobSasUrl, imageDataUri, contentType);
-                log('Post Image END');
-
-                resolve();
-            };
-            img.src = imageDataUri;
-        } else {
-            postImage(access, blobSasUrl, imageDataUri)
-                .then(() => resolve).catch(err => reject(err));;
-        }
-    });
-}
-
 
 export async function postImage(access: BlobAccess, sasUrl: string, imageDataUrl: string, contentType: string = 'image/jpeg') {
     let data = convertImageDataUrlToBytes(imageDataUrl);

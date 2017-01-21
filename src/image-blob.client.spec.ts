@@ -45,7 +45,7 @@ describe('uploadImage', () => {
                 // Upload image
                 console.log('Upload Image START');
                 let access = new BlobAccess(http);
-                await uploadImage(access, blobSasUrl, imageUrl, 300, 300);
+                await uploadImage(access, blobSasUrl, imageUrl, { maxWidth: 300, maxHeight: 300 });
                 console.log('Upload Image END');
 
                 // Load Uploaded Image

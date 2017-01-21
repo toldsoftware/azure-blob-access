@@ -15,7 +15,7 @@ export interface LoadImageOptions {
     crop?: boolean;
 }
 
-export interface LoadImageOptions_Inner extends LoadImageOptions {
+interface LoadImageOptions_Inner extends LoadImageOptions {
     crossOrigin?: boolean;
     canvas?: boolean;
     orientation?: boolean;
